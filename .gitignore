@@ -3,6 +3,19 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+.vs/
+.vscode/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+appsettings.json
+appsettings.Development.json
+bundleconfig.json
+.DS_Store
+artifacts/
+**/Properties/launchSettings.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -55,11 +68,6 @@ dlldata.c
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
 
 # StyleCop
 StyleCopReport.xml

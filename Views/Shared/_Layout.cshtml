@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        @if (IsSectionDefined("MetaTags"))
+        {
+            @RenderSection("MetaTags", required: false)
+        }
+        <!-- Start of PWA elements -->
+        <meta name=”apple-mobile-web-app-capable” content=”yes” />
+        <meta name=”mobile-web-app-capable” content=”yes” />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="address=no" />    
+        <meta name="apple-mobile-web-app-title" content="MoogleApi" />
+        <meta name="apple-mobile-web-app-orientations" content="portrait-any" />
+        <!-- Home screen icon -->
+        <link rel="apple-touch-icon" href="~/icons/apple-touch-icon.png">
+        <link rel="apple-touch-startup-image" href="~/icons/icon-moogle-circle-512.png">
+        <link href="~/icons/splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="~/icons/splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <!-- End of PWA elements -->
+
+        <title>MoogleApi @ViewData["Title"]</title>
+        <environment include="Development, Production">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
+            @RenderSection("Styles", false)
+        </environment>
+    </head>
+    <body>
+        <a class="mobile-only" asp-controller="Home" asp-action="Index" style="text-decoration:none;">
+            <h1 class="site-logo">
+                <span class="blue no-space">m</span>
+                <span class="span-logo"><img class="logo-img" src="@Url.Content("/icons/icon-ff-moogle.png")" alt="Moogle face for one of the Os."></span>
+                <span class="yellow no-space">o</span>
+                <span class="blue no-space">g</span>
+                <span class="green no-space">l</span>
+                <span class="letter-e red no-space">e</span>
+                <span class="site-span-api">API</span>
+            </h1>
+        </a>
+        <nav class="navbar navbar-inverse navbar-fixed-top navbar-mod mobile-display-none">
+            <div class="container">
+                <div class="navbar-header text-center">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <h1 class="site-logo">
+                            <span class="blue no-space">m</span>
+                            <span class="span-logo"><img class="logo-img" src="@Url.Content("/icons/icon-ff-moogle.png")" alt="Moogle face for one of the Os."></span>
+                            <span class="yellow no-space">o</span>
+                            <span class="blue no-space">g</span>
+                            <span class="green no-space">l</span>
+                            <span class="letter-e red no-space">e</span>
+                            <span class="site-span-api">API <span id="menu-hamburger" class="fas fa-caret-down green" style="padding-left:5%;font-size: 28px;"></span></span>
+                        </h1>
+                        <!-- <div><span id="menu-caret" class="fas fa-caret-down"></span></div> -->
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" style="text-decoration:none;" class="mobile-placement" title="MoogleApi">
+                        <h1 class="site-logo mobile-display-none">
+                            <span class="blue no-space">m</span>
+                            <span class="span-logo"><img class="logo-img" src="@Url.Content("/icons/icon-ff-moogle.png")" alt="Moogle face for one of the Os."></span>
+                            <span class="yellow no-space">o</span>
+                            <span class="blue no-space">g</span>
+                            <span class="green no-space">l</span>
+                            <span class="letter-e red no-space">e</span>
+                            <span class="site-span-api">API</span>
+                        </h1>
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+        <div id="main" class="container">
+            @RenderBody()
+        </div>
+        <footer class="mobile-only mobile-only-footer">
+            <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-mod">                
+                @await Html.PartialAsync("_LoginPartial")
+            </nav>
+        </footer>
+        <footer class="mobile-display-none">
+            <hr />
+            <span id="copyright" class="copyright">&copy; 2018 - @DateTime.Now.Year </span>
+            <span id="copyright" class="mobile-copyright">&copy;  @DateTime.Now.Year </span>
+            <a class="navbar-title" asp-controller="Home" asp-action="Index" title="Click to go to search page.">
+                <span class="blue">m</span>
+                <span class="red">o</span>
+                <span class="yellow">o</span>
+                <span class="blue">g</span>
+                <span class="green">l</span>
+                <span class="red">e</span>
+                <span class="site-span-api site-span-api-sm">API</span>
+            </a> 
+            <span id="social-icons">
+            <a href="https://www.facebook.com/jackfperryjr" target="_blank" title="Visit Facebook."><i class="fab fa-facebook-square"></i></a>
+            <a href="https://www.linkedin.com/in/jackfperryjr" target="_blank" title="Visit LinkedIn."><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/jackfperryjr" target="_blank" title="Visit GitHub."><i class="fab fa-github-square"></i></a>
+            <a href="https://www.instagram.com/jackfperryjr" target="_blank" title="Visit Instagram."><i class="fab fa-instagram"></i></a>
+            </span>
+        </footer>
+        <environment include="Development, Production">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        </environment>
+        @RenderSection("Scripts", required: false)
+        <script>
+            $(this).delay(1000).queue(function() {
+                let search = $('#search').offset().top;
+    
+                let stickySearch = function(){
+                    let scrollTop = $(window).scrollTop();
+                
+                    if (scrollTop > search) { 
+                        $("#search").addClass("sticky-search-bar");
+                        $("#search-icon").addClass("sticky-search-icon")
+                    } else {
+                        $('#search').removeClass("sticky-search-bar"); 
+                        $("#search-icon").removeClass("sticky-search-icon")
+                    }
+                };
+            
+                stickySearch();
+                $(window).scroll(function() {
+                    stickySearch();
+                });
+            });
+
+            function hideSuccess() {
+                $("#edit-success-container").hide();
+            }
+
+            $("#img-input").change(function(event){
+                let imgPath = URL.createObjectURL(event.target.files[0]);
+                $("#img-output").fadeIn("fast").attr('src',imgPath); 
+            }) 
+        </script>
+    </body>
+</html>
