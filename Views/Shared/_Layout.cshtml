@@ -40,7 +40,7 @@
         </environment>
     </head>
     <body>
-        <a class="mobile-only" asp-controller="Home" asp-action="Index" style="text-decoration:none;">
+        <span class="mobile-only">
             <h1 class="site-logo">
                 <span class="blue no-space">m</span>
                 <span class="span-logo"><img class="logo-img" src="@Url.Content("/icons/icon-ff-moogle.png")" alt="Moogle face for one of the Os."></span>
@@ -50,7 +50,7 @@
                 <span class="letter-e red no-space">e</span>
                 <span class="site-span-api">API</span>
             </h1>
-        </a>
+        </span>
         <nav class="navbar navbar-inverse navbar-fixed-top navbar-mod mobile-display-none">
             <div class="container">
                 <div class="navbar-header text-center">
@@ -65,9 +65,8 @@
                             <span class="letter-e red no-space">e</span>
                             <span class="site-span-api">API <span id="menu-hamburger" class="fas fa-caret-down green" style="padding-left:5%;font-size: 28px;"></span></span>
                         </h1>
-                        <!-- <div><span id="menu-caret" class="fas fa-caret-down"></span></div> -->
                     </button>
-                    <a asp-controller="Home" asp-action="Index" style="text-decoration:none;" class="mobile-placement" title="MoogleApi">
+                    <span class="mobile-placement" title="MoogleApi">
                         <h1 class="site-logo mobile-display-none">
                             <span class="blue no-space">m</span>
                             <span class="span-logo"><img class="logo-img" src="@Url.Content("/icons/icon-ff-moogle.png")" alt="Moogle face for one of the Os."></span>
@@ -77,7 +76,7 @@
                             <span class="letter-e red no-space">e</span>
                             <span class="site-span-api">API</span>
                         </h1>
-                    </a>
+                    </span>
                 </div>
                 <div class="navbar-collapse collapse">
                     @await Html.PartialAsync("_LoginPartial")
@@ -96,7 +95,7 @@
             <hr />
             <span id="copyright" class="copyright">&copy; 2018 - @DateTime.Now.Year </span>
             <span id="copyright" class="mobile-copyright">&copy;  @DateTime.Now.Year </span>
-            <a class="navbar-title" asp-controller="Home" asp-action="Index" title="Click to go to search page.">
+            <span class="navbar-title">
                 <span class="blue">m</span>
                 <span class="red">o</span>
                 <span class="yellow">o</span>
@@ -104,7 +103,7 @@
                 <span class="green">l</span>
                 <span class="red">e</span>
                 <span class="site-span-api site-span-api-sm">API</span>
-            </a> 
+            </span> 
             <span id="social-icons">
             <a href="https://www.facebook.com/jackfperryjr" target="_blank" title="Visit Facebook."><i class="fab fa-facebook-square"></i></a>
             <a href="https://www.linkedin.com/in/jackfperryjr" target="_blank" title="Visit LinkedIn."><i class="fab fa-linkedin"></i></a>
@@ -118,6 +117,12 @@
         </environment>
         @RenderSection("Scripts", required: false)
         <script>
+            $(document).ready(function(){
+                setTimeout(function(){ 
+                    $("#overlay").fadeOut(300);
+                }, 1500);
+            });
+
             $(this).delay(1000).queue(function() {
                 let search = $('#search').offset().top;
     
