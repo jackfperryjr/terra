@@ -114,44 +114,8 @@
         <environment include="Development, Production">
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js"></script>
         </environment>
         @RenderSection("Scripts", required: false)
-        <script>
-            $(document).ready(function(){
-                setTimeout(function(){ 
-                    $("#overlay").fadeOut(300);
-                }, 1500);
-            });
-
-            $(this).delay(1000).queue(function() {
-                let search = $('#search').offset().top;
-    
-                let stickySearch = function(){
-                    let scrollTop = $(window).scrollTop();
-                
-                    if (scrollTop > search) { 
-                        $("#search").addClass("sticky-search-bar");
-                        $("#search-icon").addClass("sticky-search-icon")
-                    } else {
-                        $('#search').removeClass("sticky-search-bar"); 
-                        $("#search-icon").removeClass("sticky-search-icon")
-                    }
-                };
-            
-                stickySearch();
-                $(window).scroll(function() {
-                    stickySearch();
-                });
-            });
-
-            function hideSuccess() {
-                $("#edit-success-container").hide();
-            }
-
-            $("#img-input").change(function(event){
-                let imgPath = URL.createObjectURL(event.target.files[0]);
-                $("#img-output").fadeIn("fast").attr('src',imgPath); 
-            }) 
-        </script>
     </body>
 </html>
