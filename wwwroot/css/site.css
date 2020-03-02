@@ -739,6 +739,7 @@ button.stripe-button-el>span {
 @media screen and (max-width: 767px) {
     #overlay {
       background-color: #000000;
+      line-height: 80vh;
     }
     body {
       margin-top: -20px;

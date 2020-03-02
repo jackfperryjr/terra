@@ -34,7 +34,23 @@ function hideSuccess() {
     $("#edit-success-container").hide();
 }
 
-$("#img-input").change(function(event){
+$("#img-input1").change(function(event){
     let imgPath = URL.createObjectURL(event.target.files[0]);
-    $("#img-output").fadeIn("fast").attr('src',imgPath); 
+    $("#img-output1").fadeIn("fast").attr('src',imgPath); 
+});
+$("#img-input2").change(function(event){
+    let imgPath = URL.createObjectURL(event.target.files[0]);
+    $("#img-output2").fadeIn("fast").attr('src',imgPath); 
+});
+$("#img-input3").change(function(event){
+    let imgPath = URL.createObjectURL(event.target.files[0]);
+    $("#img-output3").fadeIn("fast").attr('src',imgPath); 
+});
+$("#img-input4").change(function(event){
+    let imgPath = URL.createObjectURL(event.target.files[0]);
+    $("#img-output4").fadeIn("fast").attr('src',imgPath); 
+});
+$("#img-input5").change(function(event){
+    let imgPath = URL.createObjectURL(event.target.files[0]);
+    $("#img-output5").fadeIn("fast").attr('src',imgPath); 
 });
