@@ -172,12 +172,31 @@ namespace Terra.Controllers
                 return NotFound();
             }
 
-            var characters = await _context.Character.SingleOrDefaultAsync(m => m.Id == id);
-            if (characters == null)
+            var character = await _context.Character.SingleOrDefaultAsync(m => m.Id == id);
+            if (character == null)
             {
                 return NotFound();
             }
-            return View(characters);
+            else
+            {
+                if (character.Picture2 == null)
+                {
+                    character.Picture2 = "/icons/default-avatar.png";
+                }
+                if (character.Picture3 == null)
+                {
+                    character.Picture3 = "/icons/default-avatar.png";
+                }
+                if (character.Picture4 == null)
+                {
+                    character.Picture4 = "/icons/default-avatar.png";
+                }
+                if (character.Picture5 == null)
+                {
+                    character.Picture5 = "/icons/default-avatar.png";
+                }
+            }
+            return View(character);
         }
 
         // POST: Character/Edit/5

@@ -734,9 +734,27 @@ button.stripe-button-el>span {
   top: 30px;
   left: 37px;
 }
+.character-img-small {
+  margin:0 auto;
+  height:125px;
+  width:125px;
+}
+.character-img-small img {
+  height:125px;
+  width:125px;
+  cursor:pointer;
+}
 /* End of special button stuff */
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
+    .character-img-small {
+      height:75px;
+      width:75px;
+    }
+    .character-img-small img {
+      height:75px;
+      width:75px;
+    }
     #overlay {
       background-color: #000000;
       line-height: 80vh;

@@ -10,52 +10,48 @@
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="add-edit-list">
         <div class="row">
-            <div id="desc-position" class="col-md-12">
-                <div class="input-group" style="height:250px;width:250px;margin:0 auto;">
-                    <label>
-                        <img id="img-output1" class="img-character" src="~/icons/default-avatar.png" />
-                        <input asp-for="Picture" id="img-input1" type="file" accept="image/*" name="picture" style="display:none;" />
-                    </label>
-                    <span asp-validation-for="Picture" class="text-danger"></span>
-                </div>
-                <div class="row" style="margin:10px -15px 10px -15px;">
-                    <div class="col-xs-6" style="margin:0;">
-                        <div class="input-group" style="margin:0 auto;height:100px;width:100px;">
-                            <label>
-                                <img id="img-output2" style="height:100px;width:100px;cursor:pointer;" src="~/icons/default-avatar.png" />
-                                <input asp-for="Picture2" id="img-input2" type="file" accept="image/*" name="picture" style="display:none;" />
-                            </label>
-                            <span asp-validation-for="Picture2" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-6" style="margin:0;">
-                        <div class="input-group" style="margin:0 auto;height:100px;width:100px;">
-                            <label>
-                                <img id="img-output3" style="height:100px;width:100px;cursor:pointer;" src="~/icons/default-avatar.png" />
-                                <input asp-for="Picture3" id="img-input3" type="file" accept="image/*" name="picture" style="display:none;" />
-                            </label>
-                            <span asp-validation-for="Picture3" class="text-danger"></span>
-                        </div>
+            <div lass="img-container">
+                <label>
+                    <img id="img-output1" class="img-character" src="~/icons/default-avatar.png" />
+                    <input asp-for="Picture" id="img-input1" type="file" accept="image/*" name="picture" style="display:none;" />
+                </label>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+            <div class="row" style="margin:10px -15px 10px -15px;">
+                <div class="col-xs-3" style="margin:0 0 0 -15px;">
+                    <div class="input-group character-img-small">
+                        <label>
+                            <img id="img-output2" src="~/icons/default-avatar.png" />
+                            <input asp-for="Picture2" id="img-input2" type="file" accept="image/*" name="picture" style="display:none;" />
+                        </label>
+                        <span asp-validation-for="Picture2" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row" style="margin:10px -15px 10px -15px;">
-                    <div class="col-xs-6" style="margin:0;">
-                        <div class="input-group" style="margin:0 auto;height:100px;width:100px;">
-                            <label>
-                                <img id="img-output4" style="height:100px;width:100px;cursor:pointer;" src="~/icons/default-avatar.png" />
-                                <input asp-for="Picture4" id="img-input4" type="file" accept="image/*" name="picture" style="display:none;" />
-                            </label>
-                            <span asp-validation-for="Picture4" class="text-danger"></span>
-                        </div>
+                <div class="col-xs-3" style="margin:0;">
+                    <div class="input-group character-img-small">
+                        <label>
+                            <img id="img-output3" src="~/icons/default-avatar.png" />
+                            <input asp-for="Picture3" id="img-input3" type="file" accept="image/*" name="picture" style="display:none;" />
+                        </label>
+                        <span asp-validation-for="Picture3" class="text-danger"></span>
                     </div>
-                    <div class="col-xs-6" style="margin:0;">
-                        <div class="input-group" style="margin:0 auto;height:100px;width:100px;">
-                            <label>
-                                <img id="img-output5" style="height:100px;width:100px;cursor:pointer;" src="~/icons/default-avatar.png" />
-                                <input asp-for="Picture5" id="img-input5" type="file" accept="image/*" name="picture" style="display:none;" />
-                            </label>
-                            <span asp-validation-for="Picture5" class="text-danger"></span>
-                        </div>
+                </div>
+                <div class="col-xs-3" style="margin:0;">
+                    <div class="input-group character-img-small">
+                        <label>
+                            <img id="img-output4" src="~/icons/default-avatar.png" />
+                            <input asp-for="Picture4" id="img-input4" type="file" accept="image/*" name="picture" style="display:none;" />
+                        </label>
+                        <span asp-validation-for="Picture4" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3" style="margin:0;">
+                    <div class="input-group character-img-small">
+                        <label>
+                            <img id="img-output5" src="~/icons/default-avatar.png" />
+                            <input asp-for="Picture5" id="img-input5" type="file" accept="image/*" name="picture" style="display:none;" />
+                        </label>
+                        <span asp-validation-for="Picture5" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -134,7 +130,7 @@
                 </div>
                 <span class="font-10 label-under">character description</span>
             </div>
-            <div id="desc-position" class="col-md-6">
+            <div class="col-md-6">
                 <div class="form-group" style="margin-bottom:0 !important;">
                     <textarea id="desc-input" asp-for="Response1" class="login-bar" placeholder="Enter a character dating profile in this space" title="Enter a character dating profile in this space" ></textarea>
                     <span asp-validation-for="Response1" class="text-danger"></span>
