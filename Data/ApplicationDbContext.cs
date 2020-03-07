@@ -13,6 +13,8 @@ namespace Terra.Data
         public DbSet<Terra.Models.Characters> Character { get; set; }
         public DbSet<Terra.Models.Monster> Monsters { get; set; }  
         public DbSet<Terra.Models.Game> Games { get; set; }  
+        public DbSet<Terra.Models.Picture> Pictures { get; set; }  
+        public DbSet<Terra.Models.Stat> Stats { get; set; }  
         
         // protected override void OnModelCreating(ModelBuilder builder)
         // {

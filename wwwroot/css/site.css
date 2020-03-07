@@ -4,7 +4,44 @@
 
 @import "https://use.fontawesome.com/releases/v5.4.0/css/all.css";
 
-#overlay {
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+#overlay,
+#overlay-loader {
   position: fixed;
   top:0;
   left:0;
@@ -17,10 +54,14 @@
   backdrop-filter: blur(5px);
   z-index: 7000;
   transition: all .05s ease-in-out;
-  font-size:calc(120px + 10vmin);
+  font-size:calc(80px + 10vmin);
   font-weight: 600;
   line-height: 100vh;
   margin:0;
+}
+#overlay-loader {
+  display: none;
+  background: rgba(255,255,255,.8)
 }
 /* Modifying HTML elements and Bootstrap overrides */
 body {
@@ -32,9 +73,8 @@ body {
 .btn {
   box-shadow: none;
 }
-.active > a {
-  background-color: #4285F4 !important;
-  color: #fff !important;
+.active span {
+  color: #4285F4;
 }
 .container-mod {
   width: 70%;
@@ -160,7 +200,7 @@ i {
   transform: rotate(7deg);
 }
 .fa-instagram:hover,
-.ffa-instagram:focus {
+.fa-instagram:focus {
   color: #CC0000;
   transform: rotate(7deg);
 }
@@ -747,6 +787,9 @@ button.stripe-button-el>span {
 /* End of special button stuff */
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
+    .img-character {
+      border-color: #ffffff;
+    }
     .character-img-small {
       height:75px;
       width:75px;
@@ -755,9 +798,13 @@ button.stripe-button-el>span {
       height:75px;
       width:75px;
     }
-    #overlay {
-      background-color: #000000;
+    #overlay,
+    #overlay-loader {
+      background-color: rgba(0,0,0);
       line-height: 80vh;
+    }
+    #overlay-loader {
+      background-color: rgba(0,0,0,.8);
     }
     body {
       margin-top: -20px;

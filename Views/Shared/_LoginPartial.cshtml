@@ -10,9 +10,9 @@
         <ul class="nav navbar-nav navbar-right">
             @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
             {
-                <li><a asp-controller="Character" asp-action="Index" title="Click to view or manage characters."><span class="fas fa-hat-wizard grey"></span> <span class="mobile-display-none"> Characters</span></a></li>
-                <li><a asp-controller="Game" asp-action="Index" title="Click to view or manage games."><span class="fas fa-dice-d20 grey"></span> <span class="mobile-display-none"> Games</span></a></li>
-                <li><a asp-controller="Monster" asp-action="Index" title="Click to view or manage monsters."><span class="fas fa-dragon grey"></span> <span class="mobile-display-none"> Monsters</span></a></li>
+                <li><a id="character-nav-btn" asp-controller="Character" asp-action="Index" title="Click to view or manage characters."><span class="fas fa-hat-wizard"></span> <span class="mobile-display-none"> Characters</span></a></li>
+                <li><a id="game-nav-btn" asp-controller="Game" asp-action="Index" title="Click to view or manage games."><span class="fas fa-dice-d20"></span> <span class="mobile-display-none"> Games</span></a></li>
+                <li><a id="monster-nav-btn" asp-controller="Monster" asp-action="Index" title="Click to view or manage monsters."><span class="fas fa-dragon"></span> <span class="mobile-display-none"> Monsters</span></a></li>
             }
             <li><a asp-controller="Manage" asp-action="Index" title="Click to manage profile."><img class="navbar-icon" src="@user.Picture"></a></li>
         </ul>

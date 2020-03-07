@@ -4,8 +4,25 @@ $(document).ready(function(){
         $("#overlay").fadeOut(250);
     }, 1500);
 
-    $("#login-btn").off().on("click", function() {
-        $("#loader").show();
+    $("#login-btn").off().on("click", function(){
+        let isValid = $("#login-form").valid();
+        if (isValid) {
+            Loader();
+        }
+    });
+
+    if (window.location.href.indexOf("Character") != -1) {
+        $("#character-nav-btn").addClass("active").siblings().removeClass("active");
+    }
+    if (window.location.href.indexOf("Game") != -1) {
+        $("#game-nav-btn").addClass("active").siblings().removeClass("active");
+    }
+    if (window.location.href.indexOf("Monster") != -1) {
+        $("#monster-nav-btn").addClass("active").siblings().removeClass("active");
+    }
+
+    $(".nav li a").off().on("click", function() {
+        $(this).addClass("active").siblings().removeClass("active");
     });
 });
 
@@ -54,3 +71,7 @@ $("#img-input5").change(function(event){
     let imgPath = URL.createObjectURL(event.target.files[0]);
     $("#img-output5").fadeIn("fast").attr('src',imgPath); 
 });
+
+function Loader() {
+    $("#overlay-loader").show();
+}

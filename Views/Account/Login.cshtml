@@ -8,12 +8,15 @@
     ViewData["Title"] = "| Login";
 }
 <div id="overlay">
-    <p>m</p>
+    <p><img src="~/icons/moogleapi-icon-circle-192.png" style="width:100px;height:100px;"></p>
+</div>
+<div id="overlay-loader">
+    <p><img class="rotating" src="~/icons/moogleapi-icon-circle-192.png" style="width:100px;height:100px;"></p>
 </div>
 <div class="row" style="margin:20% auto;">
     <div class="col-md-5" style="background-color:transparent;border-radius:5px;margin:0 auto !important;float:none !important;">
         <section>
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <form id="login-form" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <h2>please log in</h2>
                 <hr/>
                 <div asp-validation-summary="All" class="text-danger"></div>
