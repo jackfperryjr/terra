@@ -16,5 +16,5 @@
     ],
     "display": "standalone",
     "orientation": "portrait",
-    "start_url": "https://www.moogleapi.com"
+    "start_url": "https://mooglemvc.azurewebsites.net"
   }
