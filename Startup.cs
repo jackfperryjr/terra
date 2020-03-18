@@ -26,7 +26,7 @@ namespace Terra
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AzureUserDB")));
+                options.UseSqlServer(Configuration.GetConnectionString("AzureDB")));
             services.AddIdentity<ApplicationUser, IdentityRole>(Configuration =>
                 { Configuration.SignIn.RequireConfirmedEmail = true; })
             .AddEntityFrameworkStores<ApplicationDbContext>()
