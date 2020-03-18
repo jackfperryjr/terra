@@ -2,7 +2,7 @@
 $(document).ready(function(){
     setTimeout(function(){ 
         $("#overlay").fadeOut(250);
-    }, 1500);
+    }, 1500); 
 
     $("#login-btn").off().on("click", function(){
         let isValid = $("#login-form").valid();
