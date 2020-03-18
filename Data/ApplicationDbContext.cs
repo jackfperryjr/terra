@@ -10,13 +10,13 @@ namespace Terra.Data
             : base(options)
         {
         }
-        public DbSet<Terra.Models.Characters> Character { get; set; }
+        public DbSet<Terra.Models.Character> Characters { get; set; }
         public DbSet<Terra.Models.Monster> Monsters { get; set; }  
         public DbSet<Terra.Models.Game> Games { get; set; }  
         public DbSet<Terra.Models.Picture> Pictures { get; set; }  
         public DbSet<Terra.Models.Stat> Stats { get; set; }  
         public DbSet<Terra.Models.DatingProfile> DatingProfile { get; set; }
-        public DbSet<Terra.Models.DatingResponse> DatingResponses { get; set; }
+        public DbSet<Terra.Models.DatingResponse> Responses { get; set; }
         
         // protected override void OnModelCreating(ModelBuilder builder)
         // {

@@ -1,23 +1,32 @@
 using System;  
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;  
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Terra.Models  
 {  
     public class DatingProfile
     {  
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
-        public string CharacterId { get; set; }  
         public string Bio { get; set; }
         public string Age { get; set; } 
         public string Gender { get; set; }
-        public List<DatingResponse> Responses { get; set; }
-        public List<Picture> Pictures { get; set; }
+        public ICollection<DatingResponse> Responses { get; set; }
+        public Guid CharacterId { get; set; }
+        [ForeignKey("CharacterId")]
+        public Character Character { get; set; }
     }  
 
     public class DatingResponse
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set ;}
-        public string CharacterId { get; set; }
-        public string Reponse { get; set; }
+        public string Response { get; set; }
+        public Guid DatingProfileId { get; set; }
+        [ForeignKey("DatingProfileId")]
+        public DatingProfile DatingProfile { get; set; }
     }
 }

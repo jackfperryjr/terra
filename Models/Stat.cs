@@ -1,12 +1,16 @@
 
 using System;  
+using System.ComponentModel.DataAnnotations;  
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Terra.Models  
-{  
-    public class Stat
-    {  
-        public Guid StatId { get; set; }  
-        public string CharacterId { get; set; }
+{ 
+    public class Stat 
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid Id { get; set; }  
+        public string Platform { get; set; }
         public int HitPoints { get; set; }
         public int ManaPoints { get; set; }
         public int Attack { get; set; }
@@ -15,5 +19,8 @@ namespace Terra.Models
         public int MagicDefense { get; set; }
         public int Agility { get; set; }
         public int Spirit { get; set; }
+        public Guid CollectionId { get; set; }
+        [ForeignKey("CollectionId")]
+        public Character Character { get; set; }
     }  
 }

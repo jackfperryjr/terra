@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -48,7 +49,11 @@ namespace Terra.Controllers
                 searchString = currentFilter;
             }
 
-            var characters = from c in _context.Character select c;
+            IQueryable<Character> characters = _context.Characters
+                                                .Include(c => c.Pictures)
+                                                .Include(c => c.Stats)
+                                                .Include(c => c.DatingProfile)
+                                                .ThenInclude(c => c.Responses);
             characters = characters.OrderByDescending(c => c.Origin ).ThenBy(c => c.Name);
 
             if (!String.IsNullOrEmpty(searchString))
@@ -57,7 +62,7 @@ namespace Terra.Controllers
             }
 
             int pageSize = 14;
-            return View(await PaginatedList<Characters>.CreateAsync(characters.AsNoTracking(), page ?? 1, pageSize));
+            return View(await PaginatedList<Character>.CreateAsync(characters.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Character/Details/5
@@ -69,8 +74,13 @@ namespace Terra.Controllers
                 return NotFound();
             }
 
-            var characters = await _context.Character
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var characters = await _context.Characters
+                                    .Include(c => c.Pictures)
+                                    .Include(c => c.Stats)
+                                    .Include(c => c.DatingProfile)
+                                    .ThenInclude(c => c.Responses)
+                                    .SingleOrDefaultAsync(c => c.Id == id);
+
             if (characters == null)
             {
                 return NotFound();
@@ -80,7 +90,6 @@ namespace Terra.Controllers
         }
 
         // GET: Character/Create
-
         [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
@@ -93,7 +102,7 @@ namespace Terra.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Gender,Race,Job,Height,Weight,Origin,Description,Picture,Picture2,Picture3,Picture4,Picture5,Response1,Response2,Response3,Response4,Response5,Response6,Response7,Response8,Response9,Response10")] Characters characters)
+        public async Task<IActionResult> Create(Character characters)
         {
             var account = _configuration["AzureStorageConfig:AccountName"];
             var key = _configuration["AzureStorageConfig:AccountKey"];
@@ -106,53 +115,37 @@ namespace Terra.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(characters);
-                // await _context.SaveChangesAsync();
-                // return RedirectToAction(nameof(Index));
             }
             await _context.SaveChangesAsync();
 
             var files = HttpContext.Request.Form.Files;
-            var characterFromDb = _context.Character.Find(characters.Id);
+            var characterFromDb = _context.Characters.Find(characters.Id);
 
-            if (files.Count != 0) 
-            {
-                for (var i = 0; i < files.Count; i++) {
-                    var extension = Path.GetExtension(files[i].FileName);
-                    var newBlob = container.GetBlockBlobReference("Character-" + characters.Id + (i + 1).ToString() + extension);
+            //var picture = new Picture();
+            //Picture pictureFromDb;
 
-                    using (var filestream = new MemoryStream())
-                    {
-                        files[i].CopyTo(filestream);
-                        filestream.Position = 0;
-                        await newBlob.UploadFromStreamAsync(filestream);
-                    }
-                    if (i == 0) 
-                    {
-                        characterFromDb.Picture = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                    }
-                    if (i == 1) 
-                    {
-                        characterFromDb.Picture2 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                    }
-                    if (i == 2) 
-                    {
-                        characterFromDb.Picture3 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                    }
-                    if (i == 3) 
-                    {
-                        characterFromDb.Picture4 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                    }
-                    if (i == 4) 
-                    {
-                        characterFromDb.Picture5 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                    }
-                }
-            }
-
-            // else 
+            // if (files.Count != 0) 
             // {
-            //     characterFromDb.Picture = @"\" + @"icons" + @"\" + "icon-default-image.png";
+            //     for (var i = 0; i < files.Count; i++) {
+            //         picture.CharacterId = characterFromDb.Id.ToString();
+            //         _context.Add(picture);
+            //         pictureFromDb = _context.Pictures.Find(picture.PictureId);
+
+            //         var extension = Path.GetExtension(files[i].FileName);
+            //         var newBlob = container.GetBlockBlobReference(pictureFromDb.PictureId.ToString() + extension);
+
+            //         using (var filestream = new MemoryStream())
+            //         {
+            //             files[i].CopyTo(filestream);
+            //             filestream.Position = 0;
+            //             await newBlob.UploadFromStreamAsync(filestream);
+            //         }
+            //     }
             // }
+        
+            // var pictures = from p in _context.Pictures select p;
+            // pictures = pictures.Where(i => i.CharacterId == characterFromDb.Id.ToString());
+            // characterFromDb.Pictures = pictures.ToList();
 
             TempData["ClassName"] = "bg-success";
             TempData["ContainerHeight"] = "height: 50px; border-radius: 5px;";
@@ -160,7 +153,6 @@ namespace Terra.Controllers
             TempData["Status"] = "Success";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            //return View(characters);
         }
 
         // GET: Character/Edit/5
@@ -172,29 +164,11 @@ namespace Terra.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.SingleOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Characters.SingleOrDefaultAsync(m => m.Id == id);
+
             if (character == null)
             {
                 return NotFound();
-            }
-            else
-            {
-                if (character.Picture2 == null)
-                {
-                    character.Picture2 = "/icons/default-avatar.png";
-                }
-                if (character.Picture3 == null)
-                {
-                    character.Picture3 = "/icons/default-avatar.png";
-                }
-                if (character.Picture4 == null)
-                {
-                    character.Picture4 = "/icons/default-avatar.png";
-                }
-                if (character.Picture5 == null)
-                {
-                    character.Picture5 = "/icons/default-avatar.png";
-                }
             }
             return View(character);
         }
@@ -205,7 +179,7 @@ namespace Terra.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Age,Gender,Race,Job,Height,Weight,Origin,Description,Picture,Picture2,Picture3,Picture4,Picture5,Response1,Response2,Response3,Response4,Response5,Response6,Response7,Response8,Response9,Response10")] Characters characters)
+        public async Task<IActionResult> Edit(Guid id, Character characters)
         {
             var account = _configuration["AzureStorageConfig:AccountName"];
             var key = _configuration["AzureStorageConfig:AccountKey"];
@@ -219,7 +193,7 @@ namespace Terra.Controllers
             {
                 return NotFound();
             }
-            var characterFromDb = await _context.Character.SingleOrDefaultAsync(c => c.Id == id);
+            var characterFromDb = await _context.Characters.SingleOrDefaultAsync(c => c.Id == id);
 
             if (ModelState.IsValid)
             {
@@ -239,43 +213,43 @@ namespace Terra.Controllers
 
                     var files = HttpContext.Request.Form.Files;
 
-                    if (characters.Picture != characterFromDb.Picture) 
-                    {
-                        if (files.Count != 0) 
-                        {
-                            for (var i = 0; i < files.Count; i++) {
-                                var extension = Path.GetExtension(files[i].FileName);
-                                var newBlob = container.GetBlockBlobReference("Character-" + characters.Id + (i + 1).ToString() + extension);
+                    // if (characters.Picture != characterFromDb.Picture) 
+                    // {
+                    //     if (files.Count != 0) 
+                    //     {
+                    //         for (var i = 0; i < files.Count; i++) {
+                    //             var extension = Path.GetExtension(files[i].FileName);
+                    //             var newBlob = container.GetBlockBlobReference("Character-" + characters.Id + (i + 1).ToString() + extension);
 
-                                using (var filestream = new MemoryStream())
-                                {
-                                    files[i].CopyTo(filestream);
-                                    filestream.Position = 0;
-                                    await newBlob.UploadFromStreamAsync(filestream);
-                                }
-                                if (i == 0) 
-                                {
-                                    characterFromDb.Picture = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                                }
-                                if (i == 1) 
-                                {
-                                    characterFromDb.Picture2 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                                }
-                                if (i == 2) 
-                                {
-                                    characterFromDb.Picture3 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                                }
-                                if (i == 3) 
-                                {
-                                    characterFromDb.Picture4 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                                }
-                                if (i == 4) 
-                                {
-                                    characterFromDb.Picture5 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
-                                }
-                            }
-                        }
-                    }
+                    //             using (var filestream = new MemoryStream())
+                    //             {
+                    //                 files[i].CopyTo(filestream);
+                    //                 filestream.Position = 0;
+                    //                 await newBlob.UploadFromStreamAsync(filestream);
+                    //             }
+                    //             if (i == 0) 
+                    //             {
+                    //                 characterFromDb.Picture = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
+                    //             }
+                    //             if (i == 1) 
+                    //             {
+                    //                 characterFromDb.Picture2 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
+                    //             }
+                    //             if (i == 2) 
+                    //             {
+                    //                 characterFromDb.Picture3 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
+                    //             }
+                    //             if (i == 3) 
+                    //             {
+                    //                 characterFromDb.Picture4 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
+                    //             }
+                    //             if (i == 4) 
+                    //             {
+                    //                 characterFromDb.Picture5 = "https://mooglestorage.blob.core.windows.net/images/Character-" + characters.Id + (i + 1).ToString() + extension;
+                    //             }
+                    //         }
+                    //     }
+                    //}
                     TempData["ClassName"] = "bg-success";
                     TempData["ContainerHeight"] = "height: 50px; border-radius: 5px;";
                     TempData["Message"] = "Character updated!";
@@ -307,7 +281,7 @@ namespace Terra.Controllers
                 return NotFound();
             }
 
-            var characters = await _context.Character
+            var characters = await _context.Characters
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (characters == null)
             {
@@ -323,15 +297,15 @@ namespace Terra.Controllers
         [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var characters = await _context.Character.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Character.Remove(characters);
+            var characters = await _context.Characters.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Characters.Remove(characters);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CharactersExists(Guid id)
         {
-            return _context.Character.Any(e => e.Id == id);
+            return _context.Characters.Any(e => e.Id == id);
         }
     }
 }

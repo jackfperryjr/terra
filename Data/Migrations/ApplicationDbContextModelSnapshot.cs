@@ -186,7 +186,7 @@ namespace Terra.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Terra.Models.Characters", b =>
+            modelBuilder.Entity("Terra.Models.Character", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -210,44 +210,51 @@ namespace Terra.Data.Migrations
                     b.Property<string>("Origin")
                         .IsRequired();
 
-                    b.Property<string>("Picture");
-
-                    b.Property<string>("Picture2");
-
-                    b.Property<string>("Picture3");
-
-                    b.Property<string>("Picture4");
-
-                    b.Property<string>("Picture5");
-
                     b.Property<string>("Race")
                         .IsRequired();
-
-                    b.Property<string>("Response1");
-
-                    b.Property<string>("Response10");
-
-                    b.Property<string>("Response2");
-
-                    b.Property<string>("Response3");
-
-                    b.Property<string>("Response4");
-
-                    b.Property<string>("Response5");
-
-                    b.Property<string>("Response6");
-
-                    b.Property<string>("Response7");
-
-                    b.Property<string>("Response8");
-
-                    b.Property<string>("Response9");
 
                     b.Property<string>("Weight");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Character");
+                    b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Age");
+
+                    b.Property<string>("Bio");
+
+                    b.Property<Guid>("CharacterId");
+
+                    b.Property<string>("Gender");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
+
+                    b.ToTable("DatingProfile");
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingResponse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("DatingProfileId");
+
+                    b.Property<string>("Response");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DatingProfileId");
+
+                    b.ToTable("Responses");
                 });
 
             modelBuilder.Entity("Terra.Models.Game", b =>
@@ -308,30 +315,32 @@ namespace Terra.Data.Migrations
 
             modelBuilder.Entity("Terra.Models.Picture", b =>
                 {
-                    b.Property<Guid>("PictureId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CharacterId");
+                    b.Property<Guid>("CollectionId");
 
                     b.Property<int>("Primary");
 
                     b.Property<string>("Url");
 
-                    b.HasKey("PictureId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
 
                     b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("Terra.Models.Stat", b =>
                 {
-                    b.Property<Guid>("StatId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Agility");
 
                     b.Property<int>("Attack");
 
-                    b.Property<string>("CharacterId");
+                    b.Property<Guid>("CollectionId");
 
                     b.Property<int>("Defense");
 
@@ -343,11 +352,47 @@ namespace Terra.Data.Migrations
 
                     b.Property<int>("ManaPoints");
 
+                    b.Property<string>("Platform");
+
                     b.Property<int>("Spirit");
 
-                    b.HasKey("StatId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
 
                     b.ToTable("Stats");
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingProfile", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithOne("DatingProfile")
+                        .HasForeignKey("Terra.Models.DatingProfile", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingResponse", b =>
+                {
+                    b.HasOne("Terra.Models.DatingProfile", "DatingProfile")
+                        .WithMany("Responses")
+                        .HasForeignKey("DatingProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.Picture", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithMany("Pictures")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.Stat", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithMany("Stats")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -392,6 +437,38 @@ namespace Terra.Data.Migrations
                     b.HasOne("Terra.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingProfile", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithOne("DatingProfile")
+                        .HasForeignKey("Terra.Models.DatingProfile", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.DatingResponse", b =>
+                {
+                    b.HasOne("Terra.Models.DatingProfile", "DatingProfile")
+                        .WithMany("Responses")
+                        .HasForeignKey("DatingProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.Picture", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithMany("Pictures")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Terra.Models.Stat", b =>
+                {
+                    b.HasOne("Terra.Models.Character", "Character")
+                        .WithMany("Stats")
+                        .HasForeignKey("CollectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

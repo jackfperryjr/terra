@@ -1,13 +1,19 @@
 
 using System;  
+using System.ComponentModel.DataAnnotations;  
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Terra.Models  
 {  
     public class Picture
     {  
-        public Guid PictureId { get; set; }  
-        public string CharacterId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid Id { get; set; }  
         public string Url { get; set; }
         public int Primary { get; set; }
+        public Guid CollectionId { get; set; }
+        [ForeignKey("CollectionId")]
+        public Character Character { get; set; }
     }  
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Mog.Views.Manage
+namespace Terra.Views.Manage
 {
     public static class ManageNavPages
     {
